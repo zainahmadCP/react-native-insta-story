@@ -20,6 +20,7 @@ import {
   NextOrPrevious,
   StoryListItemProps,
 } from './interfaces';
+import Video from 'react-native-video';
 
 const { width, height } = Dimensions.get('window');
 
@@ -209,11 +210,20 @@ export const StoryListItem = ({
     >
       <SafeAreaView>
         <View style={styles.backgroundContainer}>
-          <Image
-            onLoadEnd={() => start()}
-            source={{ uri: content[current].story_image }}
-            style={[styles.image, storyImageStyle]}
-          />
+          {content[current]?.type == 'video' ? (
+            <Video
+              source={{ uri: content[current].story_image }} // Video URL
+              style={{ width, height }}
+              resizeMode="cover"
+              repeat
+            />
+          ) : (
+            <Image
+              onLoadEnd={() => start()}
+              source={{ uri: content[current].story_image }}
+              style={[styles.image, storyImageStyle]}
+            />
+          )}
           {load && (
             <View style={styles.spinnerContainer}>
               <ActivityIndicator size="large" color={'white'} />
@@ -247,10 +257,6 @@ export const StoryListItem = ({
         </View>
         <View style={[styles.userContainer, storyUserContainerStyle]}>
           <View style={styles.flexRowCenter}>
-            <Image
-              style={[styles.avatarImage, storyAvatarImageStyle]}
-              source={{ uri: profileImage }}
-            />
             {typeof renderTextComponent === 'function' ? (
               renderTextComponent({
                 item: content[current],
@@ -390,6 +396,7 @@ const styles = StyleSheet.create({
     height: 50,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 15,
   },
   avatarImage: {

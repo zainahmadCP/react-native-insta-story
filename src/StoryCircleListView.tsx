@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, Pressable } from 'react-native';
 import StoryCircleListItem from './StoryCircleListItem';
-import { StoryCircleListViewProps } from 'src/interfaces';
+import { StoryCircleListViewProps } from './interfaces';
 
 const StoryCircleListView = ({
   data,
@@ -16,6 +16,7 @@ const StoryCircleListView = ({
   avatarImageStyle,
   avatarWrapperStyle,
   avatarFlatListProps,
+  RenderItem,
 }: StoryCircleListViewProps) => {
   return (
     <FlatList
@@ -26,23 +27,32 @@ const StoryCircleListView = ({
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       ListFooterComponent={<View style={styles.footer} />}
-      renderItem={({ item, index }) => (
-        <StoryCircleListItem
-          avatarSize={avatarSize}
-          handleStoryItemPress={() =>
-            handleStoryItemPress && handleStoryItemPress(item, index)
-          }
-          unPressedBorderColor={unPressedBorderColor}
-          pressedBorderColor={pressedBorderColor}
-          unPressedAvatarTextColor={unPressedAvatarTextColor}
-          pressedAvatarTextColor={pressedAvatarTextColor}
-          item={item}
-          showText={showText}
-          avatarTextStyle={avatarTextStyle}
-          avatarImageStyle={avatarImageStyle}
-          avatarWrapperStyle={avatarWrapperStyle}
-        />
-      )}
+      renderItem={({ item, index }) =>
+        RenderItem ? (
+          <RenderItem
+            index={index}
+            onPress={() =>
+              handleStoryItemPress && handleStoryItemPress(item, index)
+            }
+          />
+        ) : (
+          <StoryCircleListItem
+            avatarSize={avatarSize}
+            handleStoryItemPress={() =>
+              handleStoryItemPress && handleStoryItemPress(item, index)
+            }
+            unPressedBorderColor={unPressedBorderColor}
+            pressedBorderColor={pressedBorderColor}
+            unPressedAvatarTextColor={unPressedAvatarTextColor}
+            pressedAvatarTextColor={pressedAvatarTextColor}
+            item={item}
+            showText={showText}
+            avatarTextStyle={avatarTextStyle}
+            avatarImageStyle={avatarImageStyle}
+            avatarWrapperStyle={avatarWrapperStyle}
+          />
+        )
+      }
       {...avatarFlatListProps}
     />
   );

@@ -20,6 +20,7 @@ export interface IUserStory<T = Record<string, any>> {
 export interface IUserStoryItem<T = Record<string, any>> {
   story_id: number;
   story_image: string | undefined;
+  type?: string | undefined;
   /** Function that gets called when the swipe up button is pressed */
   onPress?: (props?: any) => any;
   swipeText?: string;
@@ -94,6 +95,7 @@ export interface StoryCircleListViewProps extends SharedCircleListProps {
    * - `keyExtractor`
    */
   avatarFlatListProps?: CircleListViewFlatListProps;
+  RenderItem?: any;
 }
 
 export interface StoryCircleListItemProps extends SharedCircleListProps {
@@ -231,4 +233,5 @@ export interface StoryProps {
   storyAvatarImageStyle?: ImageStyle;
   /** Custom styles for the main story item container */
   storyContainerStyle?: ViewStyle;
+  RenderItem?: any;
 }
